@@ -1,8 +1,9 @@
 import { Container } from '@material-ui/core'
 import React from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import About from './components/about'
+import {Members} from './components/Pages/Members'
 import { Header } from './components/Header'
+import { routes } from './routes.config'
 
 const App = () => {
   console.log('rerender')
@@ -11,8 +12,7 @@ const App = () => {
       <Header />
       <Container>
         <Switch>
-          <Route exact path="/about" component={About} />
-          <Route exact path="/members" component={About} />
+          <Route exact path={routes.members.path} component={Members} />
         </Switch>
       </Container>
     </div>

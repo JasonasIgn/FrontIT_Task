@@ -6,13 +6,17 @@ import store, { history } from './store/configureStore'
 import App from './App'
 
 import './index.css'
+import { ThemeProvider } from '@material-ui/styles'
+import { theme } from './utils/theme'
 
 const target = document.querySelector('#root')
 
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App/>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </ConnectedRouter>
   </Provider>,
   target
