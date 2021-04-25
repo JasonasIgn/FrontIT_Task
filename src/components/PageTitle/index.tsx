@@ -12,13 +12,17 @@ const useStyles = makeStyles<Theme>((theme) =>
     container: {
       display: 'flex',
       alignItems: 'center',
+      marginBottom: theme.spacing(9),
     },
     circle: {
       backgroundColor: theme.palette.primary.main,
-      height: 80,
-      width: 80,
+      height: 70,
+      width: 70,
       borderRadius: '50%',
       marginRight: theme.spacing(2),
+    },
+    title: {
+      fontWeight: 600,
     },
   })
 )
@@ -32,7 +36,9 @@ export const PageTitle: React.FC<PageTitleProps> = ({ title }) => {
   return (
     <Box className={classes.container}>
       <Box className={classes.circle} />
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h4" className={classes.title}>
+        {title}
+      </Typography>
     </Box>
   )
 }

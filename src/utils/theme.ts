@@ -4,4 +4,11 @@ export const theme = createMuiTheme({
   palette: {
     primary: { main: '#FFA602' },
   },
+  overrides: {
+    MuiTableCell: {
+      head: {
+        fontWeight: 600,
+      },
+    },
+  },
 })
