@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   makeStyles,
@@ -9,10 +9,12 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TableSortLabel,
 } from '@material-ui/core'
 import { Member } from '../../utils/types'
 import { SearchField } from '../SearchField'
 import { Button } from '../Button'
+import { useDisplayMembers } from '../../utils/hooks'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -31,16 +33,65 @@ const useStyles = makeStyles<Theme>((theme) =>
   })
 )
 
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1
+  }
+  return 0
+}
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
+}
+
 interface MembersTableProps {
   members: Member[]
 }
 
+type OrderBy = 'name' | 'phone'
+
+type Order = 'asc' | 'desc'
+
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const classes = useStyles()
+  const [search, setSearch] = useState('')
+  const [orderBy, setOrderBy] = useState<OrderBy>('name')
+  const [order, setOrder] = useState<Order>('asc')
+  const displayMembers = useDisplayMembers(members, search)
+
+  const handleSort = (column: OrderBy) => {
+    const isAsc = orderBy === column && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(column)
+  }
   return (
     <>
       <Box className={classes.tableActions}>
-        <SearchField />
+        <SearchField
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <Button onClick={() => {}} className={classes.addButton}>
           Add new
         </Button>
@@ -48,15 +99,29 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell sortDirection={orderBy === 'name' ? order : false}>
+              <TableSortLabel
+                active={orderBy === 'name'}
+                direction={orderBy === 'name' ? order : 'asc'}
+                onClick={() => handleSort('name')}>
+                Name
+              </TableSortLabel>
+            </TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Phone</TableCell>
+            <TableCell>
+              <TableSortLabel
+                active={orderBy === 'phone'}
+                direction={orderBy === 'phone' ? order : 'asc'}
+                onClick={() => handleSort('phone')}>
+                Phone
+              </TableSortLabel>
+            </TableCell>
             <TableCell>Website</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
-          {members.map((member) => (
+          {stableSort(displayMembers, getComparator(order, orderBy)).map((member) => (
             <TableRow key={member.name}>
               <TableCell component="th" scope="row">
                 {member.name}

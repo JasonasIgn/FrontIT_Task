@@ -5,6 +5,7 @@ import {
   createStyles,
   Theme,
   TextField,
+  TextFieldProps,
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
@@ -19,7 +20,7 @@ const useStyles = makeStyles<Theme>((theme) =>
   })
 )
 
-export const SearchField = () => {
+export const SearchField: React.FC<TextFieldProps> = (props) => {
   const classes = useStyles()
   return (
     <TextField
@@ -31,6 +32,7 @@ export const SearchField = () => {
         endAdornment: <SearchIcon />,
         classes: { root: classes.root },
       }}
+      {...props}
     />
   )
 }
