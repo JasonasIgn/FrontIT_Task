@@ -21,7 +21,7 @@ const useStyles = makeStyles<Theme>((theme) =>
       alignItems: 'center',
     },
     link: {
-      marginLeft: theme.spacing(2),
+      marginLeft: theme.spacing(5),
     },
   })
 )
@@ -44,6 +44,7 @@ export const Header = () => {
           <HeaderLink
             underline={link.path.includes(pathname) ? 'always' : 'hover'}
             key={link.path}
+            className={classes.link}
             to={link.path}>
             {link.title}
           </HeaderLink>

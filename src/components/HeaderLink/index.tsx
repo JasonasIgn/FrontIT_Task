@@ -9,13 +9,11 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { routes } from '../../routes.config'
-import { useAppSelector } from '../../store/reducers'
+import clsx from 'clsx'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     link: {
-      marginLeft: theme.spacing(2),
       textUnderlineOffset: `${theme.spacing(0.75)}px`
     },
     linkText: {
@@ -25,21 +23,23 @@ const useStyles = makeStyles<Theme>((theme) =>
 )
 
 interface HeaderLinkProps {
-  children: React.ReactNode
-  to: string
-  underline: 'always' | 'hover' | 'none'
+  children: React.ReactNode;
+  to: string;
+  underline: 'always' | 'hover' | 'none';
+  className?: string;
 }
 
 export const HeaderLink: React.FC<HeaderLinkProps> = ({
   children,
   to,
   underline,
+  className,
 }) => {
   const classes = useStyles()
   return (
     <MuiLink
       underline={underline}
-      className={classes.link}
+      className={clsx(classes.link, className)}
       color="textPrimary"
       component={Link}
       to={to}>
