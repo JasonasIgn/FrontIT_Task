@@ -1,18 +1,22 @@
+import { Container } from '@material-ui/core'
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import About from './components/about'
+import { Header } from './components/Header'
 
-const App = () => (
-  <div>
-    <header>
-      <Link to="/">Home</Link>
-      <Link to="/about-us">About</Link>
-    </header>
-
-    <main>
-      <Route exact path="/about-us" component={About} />
-    </main>
-  </div>
-)
+const App = () => {
+  console.log('rerender')
+  return (
+    <div>
+      <Header />
+      <Container>
+        <Switch>
+          <Route exact path="/about" component={About} />
+          <Route exact path="/members" component={About} />
+        </Switch>
+      </Container>
+    </div>
+  )
+}
 
 export default App
