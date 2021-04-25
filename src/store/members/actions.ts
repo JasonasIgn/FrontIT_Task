@@ -4,6 +4,7 @@ import {
   FETCH_MEMBERS_FAILURE,
   FETCH_MEMBERS_SUCCESS,
   MembersActionsTypes,
+  REMOVE_MEMBER,
 } from './actions.types'
 
 export const fetchMembersAction = (): MembersActionsTypes => ({
@@ -17,4 +18,9 @@ export const fetchMembersSuccessAction = (members: Member[]): MembersActionsType
 
 export const fetchMembersFailureAction = (): MembersActionsTypes => ({
   type: FETCH_MEMBERS_FAILURE,
+})
+
+export const removeMemberAction = (id: number): MembersActionsTypes => ({
+  type: REMOVE_MEMBER,
+  id,
 })

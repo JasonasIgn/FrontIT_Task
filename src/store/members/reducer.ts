@@ -5,6 +5,7 @@ import {
   FETCH_MEMBERS_FAILURE,
   FETCH_MEMBERS_SUCCESS,
   MembersActionsTypes,
+  REMOVE_MEMBER,
 } from './actions.types'
 
 interface MembersState {
@@ -39,6 +40,12 @@ export const membersReducer = (
       return {
         ...state,
         loadingState: LoadingState.FAILED,
+      }
+    }
+    case REMOVE_MEMBER: {
+      return {
+        ...state,
+        members: state.members.filter((member) => member.id !== action.id),
       }
     }
     default: {

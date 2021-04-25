@@ -10,11 +10,16 @@ import {
   TableCell,
   TableBody,
   TableSortLabel,
+  IconButton,
 } from '@material-ui/core'
+import EditIcon from '@material-ui/icons/Edit'
+import CloseIcon from '@material-ui/icons/Close'
 import { Member } from '../../utils/types'
 import { SearchField } from '../SearchField'
 import { Button } from '../Button'
 import { useDisplayMembers } from '../../utils/hooks'
+import { useAppDispatch } from '../../store/reducers'
+import { removeMemberAction } from '../../store/members/actions'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -65,16 +70,17 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   return stabilizedThis.map((el) => el[0])
 }
 
-interface MembersTableProps {
-  members: Member[]
-}
-
 type OrderBy = 'name' | 'phone'
 
 type Order = 'asc' | 'desc'
 
+interface MembersTableProps {
+  members: Member[]
+}
+
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const classes = useStyles()
+  const dispatch = useAppDispatch()
   const [search, setSearch] = useState('')
   const [orderBy, setOrderBy] = useState<OrderBy>('name')
   const [order, setOrder] = useState<Order>('asc')
@@ -84,6 +90,10 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
     const isAsc = orderBy === column && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(column)
+  }
+
+  const handleRemove = (id: number) => {
+    dispatch(removeMemberAction(id))
   }
   return (
     <>
@@ -121,17 +131,26 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {stableSort(displayMembers, getComparator(order, orderBy)).map((member) => (
-            <TableRow key={member.name}>
-              <TableCell component="th" scope="row">
-                {member.name}
-              </TableCell>
-              <TableCell>{member.email}</TableCell>
-              <TableCell>{member.phone}</TableCell>
-              <TableCell>{member.website}</TableCell>
-              {/* <TableCell align="right">{row.protein}</TableCell> */}
-            </TableRow>
-          ))}
+          {stableSort(displayMembers, getComparator(order, orderBy)).map(
+            (member) => (
+              <TableRow key={member.name}>
+                <TableCell component="th" scope="row">
+                  {member.name}
+                </TableCell>
+                <TableCell>{member.email}</TableCell>
+                <TableCell>{member.phone}</TableCell>
+                <TableCell>{member.website}</TableCell>
+                <TableCell align="right">
+                  <IconButton>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleRemove(member.id)}>
+                    <CloseIcon color="primary" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            )
+          )}
         </TableBody>
       </Table>
     </>

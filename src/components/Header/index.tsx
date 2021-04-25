@@ -10,6 +10,7 @@ import {
 import { Link } from 'react-router-dom'
 import { routes } from '../../routes.config'
 import { useAppSelector } from '../../store/reducers'
+import { HeaderLink } from '../HeaderLink'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -40,15 +41,12 @@ export const Header = () => {
     <Container>
       <Box className={classes.container}>
         {headerLinks.map((link) => (
-          <MuiLink
+          <HeaderLink
             underline={link.path.includes(pathname) ? 'always' : 'hover'}
-            className={classes.link}
-            color="textPrimary"
             key={link.path}
-            component={Link}
             to={link.path}>
             {link.title}
-          </MuiLink>
+          </HeaderLink>
         ))}
       </Box>
     </Container>
