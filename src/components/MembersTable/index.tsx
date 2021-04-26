@@ -11,6 +11,8 @@ import {
   TableBody,
   TableSortLabel,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 import CloseIcon from '@material-ui/icons/Close'
@@ -25,20 +27,28 @@ import { routes } from '../../routes.config'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
-    table: {
-      minWidth: 650,
-    },
     tableActions: {
       display: 'flex',
       justifyContent: 'space-between',
       width: '100%',
       marginBottom: theme.spacing(3),
+      alignItems: 'center',
     },
     addButton: {
       width: 150,
     },
     link: {
       textDecoration: 'none',
+    },
+    websiteColumn: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    emailColumn: {
+      [theme.breakpoints.down('xs')]: {
+        display: 'none',
+      },
     },
   })
 )
@@ -84,6 +94,9 @@ interface MembersTableProps {
 }
 
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
+  const theme = useTheme()
+  const mobileView = useMediaQuery(theme.breakpoints.down('xs'))
+  console.log(mobileView)
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const [search, setSearch] = useState('')
@@ -115,7 +128,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           </Button>
         </NavLink>
       </Box>
-      <Table className={classes.table} aria-label="simple table">
+      <Table aria-label="members table" size="small">
         <TableHead>
           <TableRow>
             <TableCell sortDirection={orderBy === 'name' ? order : false}>
@@ -126,7 +139,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 Name
               </TableSortLabel>
             </TableCell>
-            <TableCell>Email</TableCell>
+            <TableCell className={classes.emailColumn}>Email</TableCell>
             <TableCell>
               <TableSortLabel
                 active={orderBy === 'phone'}
@@ -135,7 +148,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 Phone
               </TableSortLabel>
             </TableCell>
-            <TableCell>Website</TableCell>
+            <TableCell className={classes.websiteColumn}>Website</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -146,20 +159,26 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 <TableCell component="th" scope="row">
                   {member.name}
                 </TableCell>
-                <TableCell>{member.email}</TableCell>
+                <TableCell className={classes.emailColumn}>
+                  {member.email}
+                </TableCell>
                 <TableCell>{member.phone}</TableCell>
-                <TableCell>{member.website}</TableCell>
+                <TableCell className={classes.websiteColumn}>
+                  {member.website}
+                </TableCell>
                 <TableCell align="right">
                   <NavLink
                     to={`${routes.member.path.replace(
                       ':id',
                       member.id.toString()
                     )}`}>
-                    <IconButton>
+                    <IconButton size={mobileView ? 'small' : 'medium'}>
                       <EditIcon />
                     </IconButton>
                   </NavLink>
-                  <IconButton onClick={() => handleRemove(member.id)}>
+                  <IconButton
+                    onClick={() => handleRemove(member.id)}
+                    size={mobileView ? 'small' : 'medium'}>
                     <CloseIcon color="primary" />
                   </IconButton>
                 </TableCell>

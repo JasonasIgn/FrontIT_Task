@@ -19,7 +19,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <Container className={classes.container}>
+      <Container className={classes.container} >
         <Switch>
           <Route exact path={routes.members.path} component={Members} />
           <Route exact path={routes.member.path} component={Member} />
