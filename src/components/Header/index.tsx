@@ -6,7 +6,6 @@ import {
   createStyles,
   Theme,
   Drawer,
-  Button,
   IconButton,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'

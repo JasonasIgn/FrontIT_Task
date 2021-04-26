@@ -1,7 +1,5 @@
 import React from 'react'
 import {
-  Container,
-  Box,
   Link as MuiLink,
   makeStyles,
   createStyles,
@@ -14,7 +12,7 @@ import clsx from 'clsx'
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     link: {
-      textUnderlineOffset: `${theme.spacing(0.75)}px`
+      textUnderlineOffset: `${theme.spacing(0.75)}px`,
     },
     linkText: {
       fontWeight: 600,
@@ -23,10 +21,10 @@ const useStyles = makeStyles<Theme>((theme) =>
 )
 
 interface HeaderLinkProps {
-  children: React.ReactNode;
-  to: string;
-  underline: 'always' | 'hover' | 'none';
-  className?: string;
+  children: React.ReactNode
+  to: string
+  underline: 'always' | 'hover' | 'none'
+  className?: string
 }
 
 export const HeaderLink: React.FC<HeaderLinkProps> = ({
