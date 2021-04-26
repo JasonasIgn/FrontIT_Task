@@ -6,6 +6,8 @@ import {
   Theme,
 } from '@material-ui/core'
 import React from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 import { routes } from '../../routes.config'
@@ -32,6 +34,13 @@ const useStyles = makeStyles<Theme>((theme) =>
   })
 )
 
+const validationSchema = yup.object().shape({
+  email: yup.string().required('This field is required').trim(),
+  website: yup.string().required('This field is required').trim(),
+  name: yup.string().required('This field is required').trim(),
+  phone: yup.string().required('This field is required').trim(),
+})
+
 interface MemberFormProps {
   member?: Member
 }
@@ -49,6 +58,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ member }) => {
   const dispatch = useAppDispatch()
   const { handleSubmit, control } = useForm<MemberFormData>({
     defaultValues: member,
+    resolver: yupResolver(validationSchema),
   })
 
   const onSubmit = (data: MemberFormData) => {
@@ -61,29 +71,53 @@ export const MemberForm: React.FC<MemberFormProps> = ({ member }) => {
       <Controller
         name="name"
         control={control}
-        render={({ field }) => (
-          <TextField label="Name" className={classes.field} {...field} />
+        render={({ field, fieldState: { invalid, error } }) => (
+          <TextField
+            label="Name"
+            className={classes.field}
+            error={invalid}
+            helperText={error ? error.message : ''}
+            {...field}
+          />
         )}
       />
       <Controller
         name="email"
         control={control}
-        render={({ field }) => (
-          <TextField label="Email" className={classes.field} {...field} />
+        render={({ field, fieldState: { invalid, error } }) => (
+          <TextField
+            label="Email"
+            className={classes.field}
+            error={invalid}
+            helperText={error ? error.message : ''}
+            {...field}
+          />
         )}
       />
       <Controller
         name="phone"
         control={control}
-        render={({ field }) => (
-          <TextField label="Phone" className={classes.field} {...field} />
+        render={({ field, fieldState: { invalid, error } }) => (
+          <TextField
+            label="Phone"
+            className={classes.field}
+            error={invalid}
+            helperText={error ? error.message : ''}
+            {...field}
+          />
         )}
       />
       <Controller
         name="website"
         control={control}
-        render={({ field }) => (
-          <TextField label="Website" className={classes.field} {...field} />
+        render={({ field, fieldState: { invalid, error } }) => (
+          <TextField
+            label="Website"
+            className={classes.field}
+            error={invalid}
+            helperText={error ? error.message : ''}
+            {...field}
+          />
         )}
       />
       <Button
