@@ -65,8 +65,8 @@ export const membersReducer = (
       return {
         ...state,
         members: [
-          ...state.members,
           { ...action.data, id: Math.floor(Math.random() * 1000 + 1) },
+          ...state.members,
         ],
       }
     }
