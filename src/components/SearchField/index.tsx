@@ -16,6 +16,7 @@ const useStyles = makeStyles<Theme>((theme) =>
     },
     field: {
       width: 200,
+      marginRight: theme.spacing(2),
     },
   })
 )

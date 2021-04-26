@@ -13,6 +13,9 @@ const useStyles = makeStyles<Theme>((theme) =>
       display: 'flex',
       alignItems: 'center',
       marginBottom: theme.spacing(9),
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: theme.spacing(5),
+      },
     },
     circle: {
       backgroundColor: theme.palette.primary.main,
@@ -20,9 +23,17 @@ const useStyles = makeStyles<Theme>((theme) =>
       width: 70,
       borderRadius: '50%',
       marginRight: theme.spacing(2),
+      [theme.breakpoints.down('xs')]: {
+        height: 50,
+        width: 50,
+      },
     },
     title: {
       fontWeight: 600,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: theme.typography.h5.fontSize,
+        lineHeight: theme.typography.h5.lineHeight,
+      },
     },
   })
 )
