@@ -15,6 +15,10 @@ export const routes = {
     path: '/members',
     title: 'Members',
   },
+  member: {
+    path: '/members/:id',
+    title: 'Member',
+  },
   contacts: {
     path: '/contacts',
     title: 'Contacts',

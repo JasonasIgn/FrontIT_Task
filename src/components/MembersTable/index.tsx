@@ -20,6 +20,8 @@ import { Button } from '../Button'
 import { useDisplayMembers } from '../../utils/hooks'
 import { useAppDispatch } from '../../store/reducers'
 import { removeMemberAction } from '../../store/members/actions'
+import { NavLink } from 'react-router-dom'
+import { routes } from '../../routes.config'
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -102,9 +104,11 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button onClick={() => {}} className={classes.addButton}>
-          Add new
-        </Button>
+        <NavLink to={`${routes.member.path.replace(':id', 'new')}`}>
+          <Button onClick={() => {}} className={classes.addButton}>
+            Add new
+          </Button>
+        </NavLink>
       </Box>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -141,9 +145,15 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 <TableCell>{member.phone}</TableCell>
                 <TableCell>{member.website}</TableCell>
                 <TableCell align="right">
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
+                  <NavLink
+                    to={`${routes.member.path.replace(
+                      ':id',
+                      member.id.toString()
+                    )}`}>
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                  </NavLink>
                   <IconButton onClick={() => handleRemove(member.id)}>
                     <CloseIcon color="primary" />
                   </IconButton>

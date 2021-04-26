@@ -2,12 +2,10 @@ import React from 'react'
 import {
   Container,
   Box,
-  Link as MuiLink,
   makeStyles,
   createStyles,
   Theme,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
 import { routes } from '../../routes.config'
 import { useAppSelector } from '../../store/reducers'
 import { HeaderLink } from '../HeaderLink'

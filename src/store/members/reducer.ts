@@ -1,6 +1,7 @@
 import { LoadingState } from '../../utils/enums'
 import { Member } from '../../utils/types'
 import {
+  ADD_OR_UPDATE_MEMBER,
   FETCH_MEMBERS,
   FETCH_MEMBERS_FAILURE,
   FETCH_MEMBERS_SUCCESS,
@@ -46,6 +47,27 @@ export const membersReducer = (
       return {
         ...state,
         members: state.members.filter((member) => member.id !== action.id),
+      }
+    }
+
+    case ADD_OR_UPDATE_MEMBER: {
+      if (action.id) {
+        return {
+          ...state,
+          members: state.members.map((member) => {
+            if (action.id === member.id) {
+              return { ...member, ...action.data }
+            }
+            return member
+          }),
+        }
+      }
+      return {
+        ...state,
+        members: [
+          ...state.members,
+          { ...action.data, id: Math.floor(Math.random() * 1000 + 1) },
+        ],
       }
     }
     default: {
