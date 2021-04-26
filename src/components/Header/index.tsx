@@ -40,7 +40,7 @@ export const Header = () => {
       <Box className={classes.container}>
         {headerLinks.map((link) => (
           <HeaderLink
-            underline={link.path.includes(pathname) ? 'always' : 'hover'}
+            underline={link.path === pathname ? 'always' : 'hover'}
             key={link.path}
             className={classes.link}
             to={link.path}>

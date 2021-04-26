@@ -37,6 +37,9 @@ const useStyles = makeStyles<Theme>((theme) =>
     addButton: {
       width: 150,
     },
+    link: {
+      textDecoration: 'none',
+    },
   })
 )
 
@@ -104,7 +107,9 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <NavLink to={`${routes.member.path.replace(':id', 'new')}`}>
+        <NavLink
+          to={`${routes.member.path.replace(':id', 'new')}`}
+          className={classes.link}>
           <Button onClick={() => {}} className={classes.addButton}>
             Add new
           </Button>

@@ -34,7 +34,7 @@ export const membersReducer = (
       return {
         ...state,
         loadingState: LoadingState.LOADED,
-        members: action.members,
+        members: [...state.members, ...action.members],
       }
     }
     case FETCH_MEMBERS_FAILURE: {
